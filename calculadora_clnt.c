@@ -76,3 +76,37 @@ divide_1(double arg1, double arg2,  CLIENT *clnt)
 	}
 	return (&clnt_res);
 }
+
+dresponse *
+dmanhattan_1(coordenadas arg1, coordenadas arg2,  CLIENT *clnt)
+{
+	dmanhattan_1_argument arg;
+	static dresponse clnt_res;
+
+	memset((char *)&clnt_res, 0, sizeof(clnt_res));
+	arg.arg1 = arg1;
+	arg.arg2 = arg2;
+	if (clnt_call (clnt, DMANHATTAN, (xdrproc_t) xdr_dmanhattan_1_argument, (caddr_t) &arg,
+		(xdrproc_t) xdr_dresponse, (caddr_t) &clnt_res,
+		TIMEOUT) != RPC_SUCCESS) {
+		return (NULL);
+	}
+	return (&clnt_res);
+}
+
+dresponse *
+deuclides_1(coordenadas arg1, coordenadas arg2,  CLIENT *clnt)
+{
+	deuclides_1_argument arg;
+	static dresponse clnt_res;
+
+	memset((char *)&clnt_res, 0, sizeof(clnt_res));
+	arg.arg1 = arg1;
+	arg.arg2 = arg2;
+	if (clnt_call (clnt, DEUCLIDES, (xdrproc_t) xdr_deuclides_1_argument, (caddr_t) &arg,
+		(xdrproc_t) xdr_dresponse, (caddr_t) &clnt_res,
+		TIMEOUT) != RPC_SUCCESS) {
+		return (NULL);
+	}
+	return (&clnt_res);
+}

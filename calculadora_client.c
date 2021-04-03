@@ -7,7 +7,7 @@
 #include "calculadora.h"
 
 
-void calcprog_1(char *host, double a, double b, char op) {
+void calcprog_1(char *host, double a, double b, char op, coordenadas ca, coordenadas cb) {
 	CLIENT *clnt;
 	dresponse  *result;
 
@@ -33,6 +33,9 @@ void calcprog_1(char *host, double a, double b, char op) {
 		case '/':
 			result = divide_1(a, b, clnt);
 			break;
+		case 'm':
+			result = divide_1(a, b, clnt);
+			break;
 		default:
 			printf ("op erronea\n");
 			break;
@@ -51,11 +54,14 @@ void calcprog_1(char *host, double a, double b, char op) {
 
 int main (int argc, char *argv[]) {
 	char *server;
-	char type;
-	char op;
-	char datatype;
 
-   char *ptr;
+	char type; // [b, c]
+
+	char op; // [+, -, x, /] o [m, e]
+	double a;
+	double b;
+	coordenadas ca;
+	coordenadas cb;
 
 	if (argc != 2) {
 		printf ("usage: %s server_server\n", argv[0]);
@@ -67,25 +73,23 @@ int main (int argc, char *argv[]) {
 
 	printf ("Elija operación:\n\tb (básica + - x /)\n\tc (compleja distancia manhattan, distacia euclidea)\n");
 	scanf("%c", &type);
-	
-	if (type != 'c' && type != 'b') {
+
+	if (type == 'b') {
+		printf ("Introduzca operación (operandoA operador operandoB, separados por espacios)(operandos disponibles: + - x /): ");
+		scanf("%lf %c %lf", &a, &op, &b);
+
+		printf("Op: %lf %c %lf\n", a, op, b);
+	} else if (type == 'c') {
+		printf ("Introduzca operación, operandos disponibles m (manhattan), e (euclides0)\n (operando coordenadaAX coordenadaAY coordenadaBX coordenadaBY, separados por espacios): ");
+		scanf("%c %lf %lf %lf %lf", &op, &ca.x, &ca.y, &cb.x, &cb.y);
+
+		printf("Op: distancia %c a=(%lf, %lf), b=(%lf, %lf)\n", op, ca.x, ca.y, cb.x, cb.y);
+	} else {
 		printf ("Opciones disponibles (b, c)\n");
 		exit (1);
 	}
 
-	if (type == 'b') {
-
-		double a;
-		double b;
-		printf ("Introduzca operación (operandoA operador operandoB, separados por espacios)(operandos disponibles: + - x /): ");
-		scanf("%lf %c %lf", &a, &op, &b);
-
-		printf("Op %lf %c %lf\n", a, op, b);
-
-		calcprog_1 (server, a, b, op);
-	}
-
+	calcprog_1 (server, a, b, op, ca, cb);
 
 	exit (0);
 }
-

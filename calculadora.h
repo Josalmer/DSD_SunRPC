@@ -14,6 +14,12 @@ extern "C" {
 #endif
 
 
+struct coordenadas {
+	double x;
+	double y;
+};
+typedef struct coordenadas coordenadas;
+
 struct dresponse {
 	int errno;
 	union {
@@ -46,6 +52,18 @@ struct divide_1_argument {
 };
 typedef struct divide_1_argument divide_1_argument;
 
+struct dmanhattan_1_argument {
+	coordenadas arg1;
+	coordenadas arg2;
+};
+typedef struct dmanhattan_1_argument dmanhattan_1_argument;
+
+struct deuclides_1_argument {
+	coordenadas arg1;
+	coordenadas arg2;
+};
+typedef struct deuclides_1_argument deuclides_1_argument;
+
 #define CALCPROG 0x20000001
 #define CALCVERS 1
 
@@ -62,6 +80,12 @@ extern  dresponse * multiplica_1_svc(double , double , struct svc_req *);
 #define DIVIDE 4
 extern  dresponse * divide_1(double , double , CLIENT *);
 extern  dresponse * divide_1_svc(double , double , struct svc_req *);
+#define DMANHATTAN 5
+extern  dresponse * dmanhattan_1(coordenadas , coordenadas , CLIENT *);
+extern  dresponse * dmanhattan_1_svc(coordenadas , coordenadas , struct svc_req *);
+#define DEUCLIDES 6
+extern  dresponse * deuclides_1(coordenadas , coordenadas , CLIENT *);
+extern  dresponse * deuclides_1_svc(coordenadas , coordenadas , struct svc_req *);
 extern int calcprog_1_freeresult (SVCXPRT *, xdrproc_t, caddr_t);
 
 #else /* K&R C */
@@ -77,24 +101,36 @@ extern  dresponse * multiplica_1_svc();
 #define DIVIDE 4
 extern  dresponse * divide_1();
 extern  dresponse * divide_1_svc();
+#define DMANHATTAN 5
+extern  dresponse * dmanhattan_1();
+extern  dresponse * dmanhattan_1_svc();
+#define DEUCLIDES 6
+extern  dresponse * deuclides_1();
+extern  dresponse * deuclides_1_svc();
 extern int calcprog_1_freeresult ();
 #endif /* K&R C */
 
 /* the xdr functions */
 
 #if defined(__STDC__) || defined(__cplusplus)
+extern  bool_t xdr_coordenadas (XDR *, coordenadas*);
 extern  bool_t xdr_dresponse (XDR *, dresponse*);
 extern  bool_t xdr_suma_1_argument (XDR *, suma_1_argument*);
 extern  bool_t xdr_resta_1_argument (XDR *, resta_1_argument*);
 extern  bool_t xdr_multiplica_1_argument (XDR *, multiplica_1_argument*);
 extern  bool_t xdr_divide_1_argument (XDR *, divide_1_argument*);
+extern  bool_t xdr_dmanhattan_1_argument (XDR *, dmanhattan_1_argument*);
+extern  bool_t xdr_deuclides_1_argument (XDR *, deuclides_1_argument*);
 
 #else /* K&R C */
+extern bool_t xdr_coordenadas ();
 extern bool_t xdr_dresponse ();
 extern bool_t xdr_suma_1_argument ();
 extern bool_t xdr_resta_1_argument ();
 extern bool_t xdr_multiplica_1_argument ();
 extern bool_t xdr_divide_1_argument ();
+extern bool_t xdr_dmanhattan_1_argument ();
+extern bool_t xdr_deuclides_1_argument ();
 
 #endif /* K&R C */
 

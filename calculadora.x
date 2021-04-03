@@ -1,3 +1,8 @@
+struct coordenadas {
+	double x;
+	double y;
+};
+
 union dresponse switch (int errno) {
 	case 0:
 		double res;
@@ -11,5 +16,7 @@ program CALCPROG {
 		dresponse RESTA(double, double) = 2;
 		dresponse MULTIPLICA(double, double) = 3;
 		dresponse DIVIDE(double, double) = 4;
+		dresponse DMANHATTAN(coordenadas, coordenadas) = 5;
+		dresponse DEUCLIDES(coordenadas, coordenadas) = 6;
 	} = 1;
 } = 0x20000001;

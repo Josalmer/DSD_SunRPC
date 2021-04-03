@@ -11,6 +11,7 @@
 #include <memory.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <math.h>
 
 #ifndef SIG_PF
 #define SIG_PF void(*)(int)
@@ -40,6 +41,18 @@ _divide_1 (divide_1_argument *argp, struct svc_req *rqstp)
 	return (divide_1_svc(argp->arg1, argp->arg2, rqstp));
 }
 
+static dresponse *
+_dmanhattan_1 (dmanhattan_1_argument *argp, struct svc_req *rqstp)
+{
+	return (dmanhattan_1_svc(argp->arg1, argp->arg2, rqstp));
+}
+
+static dresponse *
+_deuclides_1 (deuclides_1_argument *argp, struct svc_req *rqstp)
+{
+	return (deuclides_1_svc(argp->arg1, argp->arg2, rqstp));
+}
+
 static void
 calcprog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 {
@@ -48,6 +61,8 @@ calcprog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 		resta_1_argument resta_1_arg;
 		multiplica_1_argument multiplica_1_arg;
 		divide_1_argument divide_1_arg;
+		dmanhattan_1_argument dmanhattan_1_arg;
+		deuclides_1_argument deuclides_1_arg;
 	} argument;
 	char *result;
 	xdrproc_t _xdr_argument, _xdr_result;
@@ -80,6 +95,18 @@ calcprog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 		_xdr_argument = (xdrproc_t) xdr_divide_1_argument;
 		_xdr_result = (xdrproc_t) xdr_dresponse;
 		local = (char *(*)(char *, struct svc_req *)) _divide_1;
+		break;
+
+	case DMANHATTAN:
+		_xdr_argument = (xdrproc_t) xdr_dmanhattan_1_argument;
+		_xdr_result = (xdrproc_t) xdr_dresponse;
+		local = (char *(*)(char *, struct svc_req *)) _dmanhattan_1;
+		break;
+
+	case DEUCLIDES:
+		_xdr_argument = (xdrproc_t) xdr_deuclides_1_argument;
+		_xdr_result = (xdrproc_t) xdr_dresponse;
+		local = (char *(*)(char *, struct svc_req *)) _deuclides_1;
 		break;
 
 	default:

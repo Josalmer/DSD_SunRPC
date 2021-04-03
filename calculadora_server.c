@@ -52,3 +52,29 @@ dresponse * divide_1_svc(double arg1, double arg2,  struct svc_req *rqstp) {
 
 	return &result;
 }
+
+dresponse * dmanhattan_1_svc(coordenadas arg1, coordenadas arg2,  struct svc_req *rqstp) {
+	static dresponse  result;
+	double distance;
+
+	xdr_free (xdr_dresponse, &result);
+
+	distance = abs(arg1.x - arg2.x) + abs(arg1.y - arg2.y);
+
+	result.dresponse_u.res = distance;
+
+	return &result;
+}
+
+dresponse * deuclides_1_svc(coordenadas arg1, coordenadas arg2,  struct svc_req *rqstp) {
+	static dresponse  result;
+	double distance;
+
+	xdr_free (xdr_dresponse, &result);
+
+	distance = sqrt(pow(arg1.x - arg2.x, 2) + pow(arg1.y - arg2.y, 2));
+
+	result.dresponse_u.res = distance;
+
+	return &result;
+}

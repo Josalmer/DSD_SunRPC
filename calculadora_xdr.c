@@ -6,6 +6,18 @@
 #include "calculadora.h"
 
 bool_t
+xdr_coordenadas (XDR *xdrs, coordenadas *objp)
+{
+	register int32_t *buf;
+
+	 if (!xdr_double (xdrs, &objp->x))
+		 return FALSE;
+	 if (!xdr_double (xdrs, &objp->y))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
 xdr_dresponse (XDR *xdrs, dresponse *objp)
 {
 	register int32_t *buf;
@@ -59,6 +71,26 @@ xdr_divide_1_argument (XDR *xdrs, divide_1_argument *objp)
 	 if (!xdr_double (xdrs, &objp->arg1))
 		 return FALSE;
 	 if (!xdr_double (xdrs, &objp->arg2))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
+xdr_dmanhattan_1_argument (XDR *xdrs, dmanhattan_1_argument *objp)
+{
+	 if (!xdr_coordenadas (xdrs, &objp->arg1))
+		 return FALSE;
+	 if (!xdr_coordenadas (xdrs, &objp->arg2))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
+xdr_deuclides_1_argument (XDR *xdrs, deuclides_1_argument *objp)
+{
+	 if (!xdr_coordenadas (xdrs, &objp->arg1))
+		 return FALSE;
+	 if (!xdr_coordenadas (xdrs, &objp->arg2))
 		 return FALSE;
 	return TRUE;
 }

@@ -11,7 +11,6 @@
 #include <memory.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
-#include <math.h>
 
 #ifndef SIG_PF
 #define SIG_PF void(*)(int)

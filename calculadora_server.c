@@ -5,6 +5,7 @@
  */
 
 #include "calculadora.h"
+#include <math.h>
 
 dresponse * suma_1_svc(double arg1, double arg2,  struct svc_req *rqstp) {
 	static dresponse  result;
@@ -63,6 +64,8 @@ dresponse * dmanhattan_1_svc(coordenadas arg1, coordenadas arg2,  struct svc_req
 
 	result.dresponse_u.res = distance;
 
+	printf("server: Distancia manhattan(a=(%lf, %lf) y b=(%lf, %lf)=%lf\n", arg1.x, arg1.y, arg2.x, arg2.y, result);
+
 	return &result;
 }
 
@@ -72,9 +75,11 @@ dresponse * deuclides_1_svc(coordenadas arg1, coordenadas arg2,  struct svc_req 
 
 	xdr_free (xdr_dresponse, &result);
 
-	distance = sqrt(pow(arg1.x - arg2.x, 2) + pow(arg1.y - arg2.y, 2));
+	distance = sqrt(pow(arg1.x - arg2.x, 2.0) + pow(arg1.y - arg2.y, 2.0));
 
 	result.dresponse_u.res = distance;
+
+	printf("server: Distancia euclides(a=(%lf, %lf) y b=(%lf, %lf)=%lf\n", arg1.x, arg1.y, arg2.x, arg2.y, result);
 
 	return &result;
 }

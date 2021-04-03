@@ -34,7 +34,10 @@ void calcprog_1(char *host, double a, double b, char op, coordenadas ca, coorden
 			result = divide_1(a, b, clnt);
 			break;
 		case 'm':
-			result = divide_1(a, b, clnt);
+			result = dmanhattan_1(ca, cb, clnt);
+			break;
+		case 'e':
+			result = deuclides_1(ca, cb, clnt);
 			break;
 		default:
 			printf ("op erronea\n");
@@ -45,7 +48,11 @@ void calcprog_1(char *host, double a, double b, char op, coordenadas ca, coorden
 		clnt_perror (clnt, "call failed");
 	}
 
-	printf("%lf %c %lf = %lf\n", a, op, b, result->dresponse_u.res);
+	if (op == 'm' || op == 'e') {
+		printf("distancia %c ((%lf, %lf), (%lf, %lf))= %lf\n", op, ca.x, ca.y, cb.x, cb.y, result->dresponse_u.res);
+	} else {
+		printf("%lf %c %lf = %lf\n", a, op, b, result->dresponse_u.res);
+	}
 
 	#ifndef	DEBUG
 		clnt_destroy (clnt);
@@ -75,17 +82,20 @@ int main (int argc, char *argv[]) {
 	scanf("%c", &type);
 
 	if (type == 'b') {
-		printf ("Introduzca operación (operandoA operador operandoB, separados por espacios)(operandos disponibles: + - x /): ");
+		printf("Introduzca operación (operandoA operador operandoB, separados por espacios)(operandos disponibles: + - x /): ");
 		scanf("%lf %c %lf", &a, &op, &b);
 
 		printf("Op: %lf %c %lf\n", a, op, b);
 	} else if (type == 'c') {
-		printf ("Introduzca operación, operandos disponibles m (manhattan), e (euclides0)\n (operando coordenadaAX coordenadaAY coordenadaBX coordenadaBY, separados por espacios): ");
-		scanf("%c %lf %lf %lf %lf", &op, &ca.x, &ca.y, &cb.x, &cb.y);
+		double ax, ay, bx, by;
+		printf("Elija tipo de distancia (m (manhattan), e (euclides)) e introduzca coordenadas de los puntos\ncoordenadaAX coordenadaAY coordenadaBX coordenadaBY operacion, separados por espacios: \n");
+		scanf("%lf %lf %lf %lf %c", &ax, &ay, &bx, &by, &op);
+		ca = (coordenadas){ax, ay};
+		cb = (coordenadas){bx, by};
 
 		printf("Op: distancia %c a=(%lf, %lf), b=(%lf, %lf)\n", op, ca.x, ca.y, cb.x, cb.y);
 	} else {
-		printf ("Opciones disponibles (b, c)\n");
+		printf("Opciones disponibles (b, c)\n");
 		exit (1);
 	}
 

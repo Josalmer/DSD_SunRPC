@@ -7,7 +7,7 @@
 #include "calculadora.h"
 
 
-void calcprog_1(char *host, double a, double b, char op, coordenadas ca, coordenadas cb) {
+void calcprog_1(char *host, double a, double b, char op, coordenadas ca, coordenadas cb, arr va, arr vb) {
 	CLIENT *clnt;
 	dresponse  *result;
 
@@ -62,13 +62,15 @@ void calcprog_1(char *host, double a, double b, char op, coordenadas ca, coorden
 int main (int argc, char *argv[]) {
 	char *server;
 
-	char type; // [b, c]
+	char type; // [b, d, v]
 
-	char op; // [+, -, x, /] o [m, e]
+	char op; // [+, -, x, /] o [m, e] o [+, r]
 	double a;
 	double b;
 	coordenadas ca;
 	coordenadas cb;
+	arr va;
+	arr vb;
 
 	if (argc != 2) {
 		printf ("usage: %s server_server\n", argv[0]);
@@ -77,8 +79,7 @@ int main (int argc, char *argv[]) {
 
 	server = argv[1];
 
-
-	printf ("Elija operación:\n\tb (básica + - x /)\n\tc (compleja distancia manhattan, distacia euclidea)\n");
+	input: printf ("Elija tipo de operación:\n\tb (Básica + - x /)\n\td (cálculo de Distancia manhattan o euclidea)\n\tv (operaciones con Vectores: suma o reducción con suma)\n\tx eXit\n");
 	scanf("%c", &type);
 
 	if (type == 'b') {
@@ -86,20 +87,53 @@ int main (int argc, char *argv[]) {
 		scanf("%lf %c %lf", &a, &op, &b);
 
 		printf("Op: %lf %c %lf\n", a, op, b);
-	} else if (type == 'c') {
+	} else if (type == 'd') {
 		double ax, ay, bx, by;
-		printf("Elija tipo de distancia (m (manhattan), e (euclides)) e introduzca coordenadas de los puntos\ncoordenadaAX coordenadaAY coordenadaBX coordenadaBY operacion, separados por espacios: \n");
+		printf("Introduzca coordenadas de los puntos y elija tipo de distancia (m (manhattan), e (euclides)) \ncoordenadaAX coordenadaAY coordenadaBX coordenadaBY operacion, separados por espacios: \n");
 		scanf("%lf %lf %lf %lf %c", &ax, &ay, &bx, &by, &op);
 		ca = (coordenadas){ax, ay};
 		cb = (coordenadas){bx, by};
 
 		printf("Op: distancia %c a=(%lf, %lf), b=(%lf, %lf)\n", op, ca.x, ca.y, cb.x, cb.y);
-	} else {
-		printf("Opciones disponibles (b, c)\n");
-		exit (1);
+	} else if (type == 'v') {
+		int length;
+		printf("Introduzca tamaño de vector y operación (+ suma dos vectores, r reducción con suma de un vector: ");
+		scanf("%d %c", &length, &op);
+		va.arr_len = length;
+		vb.arr_len = length;
+
+		double auxA[length];
+		double aux;
+		for (int i = 0; i < length; i++) {
+			printf("Introduzca A[%d]: ", i);
+			scanf("%lf", &aux);
+			auxA[i] = aux;
+		}
+
+		va.arr_val = auxA;
+
+		if (op == '+') {
+			double auxB[length];
+			for (int i = 0; i < length; i++) {
+				printf("Introduzca B[%d]: ", i);
+				scanf("%lf", &aux);
+				auxB[i] = aux;
+			}
+			vb.arr_val = auxB;
+			printf("Suma de A[%d] y B[%d]\n", length, length);
+		} else {
+			printf("Reducción con suma de A[%d]\n", length);
+		}
+
+		printf("Operación con vectores de tamaño %d: %c\n", length, op);
 	}
 
-	calcprog_1 (server, a, b, op, ca, cb);
+	if (type != 'x') {
+		calcprog_1 (server, a, b, op, ca, cb, va, vb);
+		type = NULL;
+		fflush(stdin);
+		goto input;
+	}
 
 	exit (0);
 }

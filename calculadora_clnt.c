@@ -110,3 +110,35 @@ deuclides_1(coordenadas arg1, coordenadas arg2,  CLIENT *clnt)
 	}
 	return (&clnt_res);
 }
+
+vresponse *
+sumavectores_1(arr arg1, arr arg2,  CLIENT *clnt)
+{
+	sumavectores_1_argument arg;
+	static vresponse clnt_res;
+
+	memset((char *)&clnt_res, 0, sizeof(clnt_res));
+	arg.arg1 = arg1;
+	arg.arg2 = arg2;
+	if (clnt_call (clnt, SUMAVECTORES, (xdrproc_t) xdr_sumavectores_1_argument, (caddr_t) &arg,
+		(xdrproc_t) xdr_vresponse, (caddr_t) &clnt_res,
+		TIMEOUT) != RPC_SUCCESS) {
+		return (NULL);
+	}
+	return (&clnt_res);
+}
+
+dresponse *
+reduce_1(arr arg1,  CLIENT *clnt)
+{
+	static dresponse clnt_res;
+
+	memset((char *)&clnt_res, 0, sizeof(clnt_res));
+	if (clnt_call (clnt, REDUCE,
+		(xdrproc_t) xdr_arr, (caddr_t) &arg1,
+		(xdrproc_t) xdr_dresponse, (caddr_t) &clnt_res,
+		TIMEOUT) != RPC_SUCCESS) {
+		return (NULL);
+	}
+	return (&clnt_res);
+}

@@ -14,6 +14,11 @@ extern "C" {
 #endif
 
 
+typedef struct {
+	u_int arr_len;
+	double *arr_val;
+} arr;
+
 struct coordenadas {
 	double x;
 	double y;
@@ -27,6 +32,14 @@ struct dresponse {
 	} dresponse_u;
 };
 typedef struct dresponse dresponse;
+
+struct vresponse {
+	int errno;
+	union {
+		arr res;
+	} vresponse_u;
+};
+typedef struct vresponse vresponse;
 
 struct suma_1_argument {
 	double arg1;
@@ -64,6 +77,12 @@ struct deuclides_1_argument {
 };
 typedef struct deuclides_1_argument deuclides_1_argument;
 
+struct sumavectores_1_argument {
+	arr arg1;
+	arr arg2;
+};
+typedef struct sumavectores_1_argument sumavectores_1_argument;
+
 #define CALCPROG 0x20000001
 #define CALCVERS 1
 
@@ -86,6 +105,12 @@ extern  dresponse * dmanhattan_1_svc(coordenadas , coordenadas , struct svc_req 
 #define DEUCLIDES 6
 extern  dresponse * deuclides_1(coordenadas , coordenadas , CLIENT *);
 extern  dresponse * deuclides_1_svc(coordenadas , coordenadas , struct svc_req *);
+#define SUMAVECTORES 7
+extern  vresponse * sumavectores_1(arr , arr , CLIENT *);
+extern  vresponse * sumavectores_1_svc(arr , arr , struct svc_req *);
+#define REDUCE 8
+extern  dresponse * reduce_1(arr , CLIENT *);
+extern  dresponse * reduce_1_svc(arr , struct svc_req *);
 extern int calcprog_1_freeresult (SVCXPRT *, xdrproc_t, caddr_t);
 
 #else /* K&R C */
@@ -107,30 +132,42 @@ extern  dresponse * dmanhattan_1_svc();
 #define DEUCLIDES 6
 extern  dresponse * deuclides_1();
 extern  dresponse * deuclides_1_svc();
+#define SUMAVECTORES 7
+extern  vresponse * sumavectores_1();
+extern  vresponse * sumavectores_1_svc();
+#define REDUCE 8
+extern  dresponse * reduce_1();
+extern  dresponse * reduce_1_svc();
 extern int calcprog_1_freeresult ();
 #endif /* K&R C */
 
 /* the xdr functions */
 
 #if defined(__STDC__) || defined(__cplusplus)
+extern  bool_t xdr_arr (XDR *, arr*);
 extern  bool_t xdr_coordenadas (XDR *, coordenadas*);
 extern  bool_t xdr_dresponse (XDR *, dresponse*);
+extern  bool_t xdr_vresponse (XDR *, vresponse*);
 extern  bool_t xdr_suma_1_argument (XDR *, suma_1_argument*);
 extern  bool_t xdr_resta_1_argument (XDR *, resta_1_argument*);
 extern  bool_t xdr_multiplica_1_argument (XDR *, multiplica_1_argument*);
 extern  bool_t xdr_divide_1_argument (XDR *, divide_1_argument*);
 extern  bool_t xdr_dmanhattan_1_argument (XDR *, dmanhattan_1_argument*);
 extern  bool_t xdr_deuclides_1_argument (XDR *, deuclides_1_argument*);
+extern  bool_t xdr_sumavectores_1_argument (XDR *, sumavectores_1_argument*);
 
 #else /* K&R C */
+extern bool_t xdr_arr ();
 extern bool_t xdr_coordenadas ();
 extern bool_t xdr_dresponse ();
+extern bool_t xdr_vresponse ();
 extern bool_t xdr_suma_1_argument ();
 extern bool_t xdr_resta_1_argument ();
 extern bool_t xdr_multiplica_1_argument ();
 extern bool_t xdr_divide_1_argument ();
 extern bool_t xdr_dmanhattan_1_argument ();
 extern bool_t xdr_deuclides_1_argument ();
+extern bool_t xdr_sumavectores_1_argument ();
 
 #endif /* K&R C */
 

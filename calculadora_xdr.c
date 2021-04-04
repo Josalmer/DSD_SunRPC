@@ -6,6 +6,17 @@
 #include "calculadora.h"
 
 bool_t
+xdr_arr (XDR *xdrs, arr *objp)
+{
+	register int32_t *buf;
+
+	 if (!xdr_array (xdrs, (char **)&objp->arr_val, (u_int *) &objp->arr_len, ~0,
+		sizeof (double), (xdrproc_t) xdr_double))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
 xdr_coordenadas (XDR *xdrs, coordenadas *objp)
 {
 	register int32_t *buf;
@@ -27,6 +38,24 @@ xdr_dresponse (XDR *xdrs, dresponse *objp)
 	switch (objp->errno) {
 	case 0:
 		 if (!xdr_double (xdrs, &objp->dresponse_u.res))
+			 return FALSE;
+		break;
+	default:
+		break;
+	}
+	return TRUE;
+}
+
+bool_t
+xdr_vresponse (XDR *xdrs, vresponse *objp)
+{
+	register int32_t *buf;
+
+	 if (!xdr_int (xdrs, &objp->errno))
+		 return FALSE;
+	switch (objp->errno) {
+	case 0:
+		 if (!xdr_arr (xdrs, &objp->vresponse_u.res))
 			 return FALSE;
 		break;
 	default:
@@ -91,6 +120,16 @@ xdr_deuclides_1_argument (XDR *xdrs, deuclides_1_argument *objp)
 	 if (!xdr_coordenadas (xdrs, &objp->arg1))
 		 return FALSE;
 	 if (!xdr_coordenadas (xdrs, &objp->arg2))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
+xdr_sumavectores_1_argument (XDR *xdrs, sumavectores_1_argument *objp)
+{
+	 if (!xdr_arr (xdrs, &objp->arg1))
+		 return FALSE;
+	 if (!xdr_arr (xdrs, &objp->arg2))
 		 return FALSE;
 	return TRUE;
 }

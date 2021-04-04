@@ -83,3 +83,36 @@ dresponse * deuclides_1_svc(coordenadas arg1, coordenadas arg2,  struct svc_req 
 
 	return &result;
 }
+
+vresponse * sumavectores_1_svc(arr arg1, arr arg2,  struct svc_req *rqstp) {
+	static vresponse  result;
+	arr c;
+	c.arr_len = arg1.arr_len;
+
+	for (int i = 0; i < c.arr_len; i++) {
+		c.arr_val[i] = arg1.arr_val[i] + arg1.arr_val[i];
+	}
+
+	xdr_free (xdr_vresponse, &result);
+
+	result.vresponse_u.res = c;
+
+	return &result;
+}
+
+dresponse * reduce_1_svc(arr arg1,  struct svc_req *rqstp) {
+	static dresponse  result;
+	double reduction;
+
+	xdr_free (xdr_dresponse, &result);
+
+	for (int i = 0; i < arg1.arr_len; i++) {
+		reduction += arg1.arr_val[i];
+	}
+
+	result.dresponse_u.res = reduction;
+
+	printf("Reduce(A)=%lf\n", result);
+
+	return &result;
+}

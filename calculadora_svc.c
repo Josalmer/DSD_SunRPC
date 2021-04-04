@@ -52,6 +52,18 @@ _deuclides_1 (deuclides_1_argument *argp, struct svc_req *rqstp)
 	return (deuclides_1_svc(argp->arg1, argp->arg2, rqstp));
 }
 
+static vresponse *
+_sumavectores_1 (sumavectores_1_argument *argp, struct svc_req *rqstp)
+{
+	return (sumavectores_1_svc(argp->arg1, argp->arg2, rqstp));
+}
+
+static dresponse *
+_reduce_1 (arr  *argp, struct svc_req *rqstp)
+{
+	return (reduce_1_svc(*argp, rqstp));
+}
+
 static void
 calcprog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 {
@@ -62,6 +74,8 @@ calcprog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 		divide_1_argument divide_1_arg;
 		dmanhattan_1_argument dmanhattan_1_arg;
 		deuclides_1_argument deuclides_1_arg;
+		sumavectores_1_argument sumavectores_1_arg;
+		arr reduce_1_arg;
 	} argument;
 	char *result;
 	xdrproc_t _xdr_argument, _xdr_result;
@@ -106,6 +120,18 @@ calcprog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 		_xdr_argument = (xdrproc_t) xdr_deuclides_1_argument;
 		_xdr_result = (xdrproc_t) xdr_dresponse;
 		local = (char *(*)(char *, struct svc_req *)) _deuclides_1;
+		break;
+
+	case SUMAVECTORES:
+		_xdr_argument = (xdrproc_t) xdr_sumavectores_1_argument;
+		_xdr_result = (xdrproc_t) xdr_vresponse;
+		local = (char *(*)(char *, struct svc_req *)) _sumavectores_1;
+		break;
+
+	case REDUCE:
+		_xdr_argument = (xdrproc_t) xdr_arr;
+		_xdr_result = (xdrproc_t) xdr_dresponse;
+		local = (char *(*)(char *, struct svc_req *)) _reduce_1;
 		break;
 
 	default:

@@ -145,7 +145,7 @@ void calc_vector(char *host, arr a, arr b, char op) {
 int main (int argc, char *argv[]) {
 	char *server;
 
-	char type; // [b, d, v]
+	char type = '0'; // [b, d, v]
 
 	char op; // [+, -, x, /] o [m, e] o [+, r]
 	double a;
@@ -162,53 +162,49 @@ int main (int argc, char *argv[]) {
 
 	server = argv[1];
 
-	input: printf ("\nElija tipo de operación:\n\tb (Básica + - x /)\n\td (cálculo de Distancia manhattan o euclidea)\n\tv (operaciones con Vectores: suma o reducción con suma)\n\tx eXit\n");
-	scanf("%c", &type);
+	while (type != 'x') {
+		printf ("\nElija tipo de operación:\n\tb (Básica + - x /)\n\td (cálculo de Distancia manhattan o euclidea)\n\tv (operaciones con Vectores: suma o reducción con suma)\n\tx eXit\n");
+		scanf("%c", &type);
 
-	if (type == 'b') {
-		printf("Introduzca operación (operandoA operador operandoB, separados por espacios)(operandos disponibles: + - x /): ");
-		scanf("%lf %c %lf", &a, &op, &b);
-		calc_basica(server, a, b, op);
-	} else if (type == 'd') {
-		double ax, ay, bx, by;
-		printf("Introduzca coordenadas de los puntos y elija tipo de distancia (m (manhattan), e (euclides)) \ncoordenadaAX coordenadaAY coordenadaBX coordenadaBY operacion, separados por espacios: \n");
-		scanf("%lf %lf %lf %lf %c", &ax, &ay, &bx, &by, &op);
-		ca = (coordenadas){ax, ay};
-		cb = (coordenadas){bx, by};
-		calc_distancia(server, ca, cb, op);
-	} else if (type == 'v') {
-		int length;
-		printf("Introduzca tamaño de vector y operación (+ suma dos vectores, r reducción con suma de un vector: ");
-		scanf("%d %c", &length, &op);
-		va.arr_len = length;
-		vb.arr_len = length;
+		if (type == 'b') {
+			printf("Introduzca operación (operandoA operador operandoB, separados por espacios)(operandos disponibles: + - x /): ");
+			scanf("%lf %c %lf", &a, &op, &b);
+			calc_basica(server, a, b, op);
+		} else if (type == 'd') {
+			double ax, ay, bx, by;
+			printf("Introduzca coordenadas de los puntos y elija tipo de distancia (m (manhattan), e (euclides)) \ncoordenadaAX coordenadaAY coordenadaBX coordenadaBY operacion, separados por espacios: \n");
+			scanf("%lf %lf %lf %lf %c", &ax, &ay, &bx, &by, &op);
+			ca = (coordenadas){ax, ay};
+			cb = (coordenadas){bx, by};
+			calc_distancia(server, ca, cb, op);
+		} else if (type == 'v') {
+			int length;
+			printf("Introduzca tamaño de vector y operación (+ suma dos vectores, r reducción con suma de un vector: ");
+			scanf("%d %c", &length, &op);
+			va.arr_len = length;
+			vb.arr_len = length;
 
-		double auxA[length];
-		double auxB[length];
-		double aux;
-		for (int i = 0; i < length; i++) {
-			printf("Introduzca A[%d]: ", i);
-			scanf("%lf", &aux);
-			auxA[i] = aux;
-		}
-
-		va.arr_val = auxA;
-
-		if (op == '+') {
+			double auxA[length];
+			double auxB[length];
+			double aux;
 			for (int i = 0; i < length; i++) {
-				printf("Introduzca B[%d]: ", i);
+				printf("Introduzca A[%d]: ", i);
 				scanf("%lf", &aux);
-				auxB[i] = aux;
+				auxA[i] = aux;
 			}
-			vb.arr_val = auxB;
-		}
-		calc_vector(server, va, vb, op);
-	}
 
-	if (type != 'x') {
-		type = NULL;
-		fflush(stdin);
-		goto input;
+			va.arr_val = auxA;
+
+			if (op == '+') {
+				for (int i = 0; i < length; i++) {
+					printf("Introduzca B[%d]: ", i);
+					scanf("%lf", &aux);
+					auxB[i] = aux;
+				}
+				vb.arr_val = auxB;
+			}
+			calc_vector(server, va, vb, op);
+		}
 	}
 
 	exit (0);

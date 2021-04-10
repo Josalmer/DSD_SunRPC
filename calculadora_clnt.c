@@ -128,6 +128,57 @@ sumavectores_1(arr arg1, arr arg2,  CLIENT *clnt)
 	return (&clnt_res);
 }
 
+vresponse *
+restavectores_1(arr arg1, arr arg2,  CLIENT *clnt)
+{
+	restavectores_1_argument arg;
+	static vresponse clnt_res;
+
+	memset((char *)&clnt_res, 0, sizeof(clnt_res));
+	arg.arg1 = arg1;
+	arg.arg2 = arg2;
+	if (clnt_call (clnt, RESTAVECTORES, (xdrproc_t) xdr_restavectores_1_argument, (caddr_t) &arg,
+		(xdrproc_t) xdr_vresponse, (caddr_t) &clnt_res,
+		TIMEOUT) != RPC_SUCCESS) {
+		return (NULL);
+	}
+	return (&clnt_res);
+}
+
+vresponse *
+multiplicavectores_1(arr arg1, arr arg2,  CLIENT *clnt)
+{
+	multiplicavectores_1_argument arg;
+	static vresponse clnt_res;
+
+	memset((char *)&clnt_res, 0, sizeof(clnt_res));
+	arg.arg1 = arg1;
+	arg.arg2 = arg2;
+	if (clnt_call (clnt, MULTIPLICAVECTORES, (xdrproc_t) xdr_multiplicavectores_1_argument, (caddr_t) &arg,
+		(xdrproc_t) xdr_vresponse, (caddr_t) &clnt_res,
+		TIMEOUT) != RPC_SUCCESS) {
+		return (NULL);
+	}
+	return (&clnt_res);
+}
+
+vresponse *
+dividevectores_1(arr arg1, arr arg2,  CLIENT *clnt)
+{
+	dividevectores_1_argument arg;
+	static vresponse clnt_res;
+
+	memset((char *)&clnt_res, 0, sizeof(clnt_res));
+	arg.arg1 = arg1;
+	arg.arg2 = arg2;
+	if (clnt_call (clnt, DIVIDEVECTORES, (xdrproc_t) xdr_dividevectores_1_argument, (caddr_t) &arg,
+		(xdrproc_t) xdr_vresponse, (caddr_t) &clnt_res,
+		TIMEOUT) != RPC_SUCCESS) {
+		return (NULL);
+	}
+	return (&clnt_res);
+}
+
 dresponse *
 reduce_1(arr arg1,  CLIENT *clnt)
 {

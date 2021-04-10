@@ -103,6 +103,15 @@ void calc_vector(char *host, arr a, arr b, char op) {
 		case '+':
 			vresult = sumavectores_1(a, b, clnt);
 			break;
+		case '-':
+			vresult = restavectores_1(a, b, clnt);
+			break;
+		case 'x':
+			vresult = multiplicavectores_1(a, b, clnt);
+			break;
+		case '/':
+			vresult = dividevectores_1(a, b, clnt);
+			break;
 		case 'r':
 			result = reduce_1(a, clnt);
 			break;
@@ -120,12 +129,12 @@ void calc_vector(char *host, arr a, arr b, char op) {
 				printf(" %lf ", a.arr_val[i]);
 			}
 			printf("] = %lf\n", result->dresponse_u.res);
-		} else if (op == '+') {
+		} else {
 			printf("[");
 			for (int i = 0; i < a.arr_len; i++) {
 				printf(" %lf ", a.arr_val[i]);
 			}
-			printf("] + [");
+			printf("] %c [", op);
 			for (int i = 0; i < b.arr_len; i++) {
 				printf(" %lf ", b.arr_val[i]);
 			}
@@ -147,7 +156,7 @@ int main (int argc, char *argv[]) {
 
 	char type = '0'; // [b, d, v]
 
-	char op; // [+, -, x, /] o [m, e] o [+, r]
+	char op; // [+, -, x, /] o [m, e] o [+, -, x, /, r]
 	double a;
 	double b;
 	coordenadas ca;
@@ -179,7 +188,7 @@ int main (int argc, char *argv[]) {
 			calc_distancia(server, ca, cb, op);
 		} else if (type == 'v') {
 			int length;
-			printf("Introduzca tamaño de vector y operación (+ suma dos vectores, r reducción con suma de un vector: ");
+			printf("Introduzca tamaño de vector y operación:\nr reducción con suma de un vector\n+ suma dos vectores\n- resta dos vectores\nx multiplica dos vectores\n/ divide dos vectores\n");
 			scanf("%d %c", &length, &op);
 			va.arr_len = length;
 			vb.arr_len = length;
@@ -195,7 +204,7 @@ int main (int argc, char *argv[]) {
 
 			va.arr_val = auxA;
 
-			if (op == '+') {
+			if (op != 'r') {
 				for (int i = 0; i < length; i++) {
 					printf("Introduzca B[%d]: ", i);
 					scanf("%lf", &aux);
@@ -204,6 +213,7 @@ int main (int argc, char *argv[]) {
 				vb.arr_val = auxB;
 			}
 			calc_vector(server, va, vb, op);
+			fflush(stdin);
 		}
 	}
 

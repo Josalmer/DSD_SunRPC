@@ -133,3 +133,33 @@ xdr_sumavectores_1_argument (XDR *xdrs, sumavectores_1_argument *objp)
 		 return FALSE;
 	return TRUE;
 }
+
+bool_t
+xdr_restavectores_1_argument (XDR *xdrs, restavectores_1_argument *objp)
+{
+	 if (!xdr_arr (xdrs, &objp->arg1))
+		 return FALSE;
+	 if (!xdr_arr (xdrs, &objp->arg2))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
+xdr_multiplicavectores_1_argument (XDR *xdrs, multiplicavectores_1_argument *objp)
+{
+	 if (!xdr_arr (xdrs, &objp->arg1))
+		 return FALSE;
+	 if (!xdr_arr (xdrs, &objp->arg2))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
+xdr_dividevectores_1_argument (XDR *xdrs, dividevectores_1_argument *objp)
+{
+	 if (!xdr_arr (xdrs, &objp->arg1))
+		 return FALSE;
+	 if (!xdr_arr (xdrs, &objp->arg2))
+		 return FALSE;
+	return TRUE;
+}

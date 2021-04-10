@@ -58,6 +58,24 @@ _sumavectores_1 (sumavectores_1_argument *argp, struct svc_req *rqstp)
 	return (sumavectores_1_svc(argp->arg1, argp->arg2, rqstp));
 }
 
+static vresponse *
+_restavectores_1 (restavectores_1_argument *argp, struct svc_req *rqstp)
+{
+	return (restavectores_1_svc(argp->arg1, argp->arg2, rqstp));
+}
+
+static vresponse *
+_multiplicavectores_1 (multiplicavectores_1_argument *argp, struct svc_req *rqstp)
+{
+	return (multiplicavectores_1_svc(argp->arg1, argp->arg2, rqstp));
+}
+
+static vresponse *
+_dividevectores_1 (dividevectores_1_argument *argp, struct svc_req *rqstp)
+{
+	return (dividevectores_1_svc(argp->arg1, argp->arg2, rqstp));
+}
+
 static dresponse *
 _reduce_1 (arr  *argp, struct svc_req *rqstp)
 {
@@ -75,6 +93,9 @@ calcprog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 		dmanhattan_1_argument dmanhattan_1_arg;
 		deuclides_1_argument deuclides_1_arg;
 		sumavectores_1_argument sumavectores_1_arg;
+		restavectores_1_argument restavectores_1_arg;
+		multiplicavectores_1_argument multiplicavectores_1_arg;
+		dividevectores_1_argument dividevectores_1_arg;
 		arr reduce_1_arg;
 	} argument;
 	char *result;
@@ -126,6 +147,24 @@ calcprog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 		_xdr_argument = (xdrproc_t) xdr_sumavectores_1_argument;
 		_xdr_result = (xdrproc_t) xdr_vresponse;
 		local = (char *(*)(char *, struct svc_req *)) _sumavectores_1;
+		break;
+
+	case RESTAVECTORES:
+		_xdr_argument = (xdrproc_t) xdr_restavectores_1_argument;
+		_xdr_result = (xdrproc_t) xdr_vresponse;
+		local = (char *(*)(char *, struct svc_req *)) _restavectores_1;
+		break;
+
+	case MULTIPLICAVECTORES:
+		_xdr_argument = (xdrproc_t) xdr_multiplicavectores_1_argument;
+		_xdr_result = (xdrproc_t) xdr_vresponse;
+		local = (char *(*)(char *, struct svc_req *)) _multiplicavectores_1;
+		break;
+
+	case DIVIDEVECTORES:
+		_xdr_argument = (xdrproc_t) xdr_dividevectores_1_argument;
+		_xdr_result = (xdrproc_t) xdr_vresponse;
+		local = (char *(*)(char *, struct svc_req *)) _dividevectores_1;
 		break;
 
 	case REDUCE:

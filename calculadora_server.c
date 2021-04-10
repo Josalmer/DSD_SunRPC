@@ -117,6 +117,107 @@ vresponse * sumavectores_1_svc(arr arg1, arr arg2,  struct svc_req *rqstp) {
 	return &result;
 }
 
+vresponse * restavectores_1_svc(arr arg1, arr arg2,  struct svc_req *rqstp) {
+	static vresponse  result;
+	arr c;
+	c.arr_len = arg1.arr_len;
+	double auxC[arg1.arr_len];
+
+	for (int i = 0; i < c.arr_len; i++) {
+		auxC[i] = arg1.arr_val[i] - arg2.arr_val[i];
+	}
+
+	c.arr_val = auxC;
+
+	xdr_free (xdr_vresponse, &result);
+
+	result.vresponse_u.res = c;
+
+	printf("A[");
+	for(int i = 0; i < arg1.arr_len; i++) {
+		printf(" %lf ", arg1.arr_val[i]);
+	}
+	printf("] - [");
+	for(int i = 0; i < arg2.arr_len; i++) {
+		printf(" %lf ", arg2.arr_val[i]);
+	}
+	printf("] = [");
+	for(int i = 0; i < c.arr_len; i++) {
+		printf(" %lf ", result.vresponse_u.res.arr_val[i]);
+	}
+	printf("]\n");
+
+	return &result;
+}
+
+vresponse * multiplicavectores_1_svc(arr arg1, arr arg2,  struct svc_req *rqstp) {
+	static vresponse  result;
+	arr c;
+	c.arr_len = arg1.arr_len;
+	double auxC[arg1.arr_len];
+
+	for (int i = 0; i < c.arr_len; i++) {
+		auxC[i] = arg1.arr_val[i] * arg2.arr_val[i];
+	}
+
+	c.arr_val = auxC;
+
+	xdr_free (xdr_vresponse, &result);
+
+	result.vresponse_u.res = c;
+
+	printf("A[");
+	for(int i = 0; i < arg1.arr_len; i++) {
+		printf(" %lf ", arg1.arr_val[i]);
+	}
+	printf("] * [");
+	for(int i = 0; i < arg2.arr_len; i++) {
+		printf(" %lf ", arg2.arr_val[i]);
+	}
+	printf("] = [");
+	for(int i = 0; i < c.arr_len; i++) {
+		printf(" %lf ", result.vresponse_u.res.arr_val[i]);
+	}
+	printf("]\n");
+
+	return &result;
+}
+
+vresponse * dividevectores_1_svc(arr arg1, arr arg2,  struct svc_req *rqstp) {
+	static vresponse  result;
+	arr c;
+	c.arr_len = arg1.arr_len;
+	double auxC[arg1.arr_len];
+
+	for (int i = 0; i < c.arr_len; i++) {
+		if (arg2.arr_val[i] != 0) {
+			auxC[i] = arg1.arr_val[i] / arg2.arr_val[i];
+		}
+	}
+
+	c.arr_val = auxC;
+
+	xdr_free (xdr_vresponse, &result);
+
+	result.vresponse_u.res = c;
+
+	printf("A[");
+	for(int i = 0; i < arg1.arr_len; i++) {
+		printf(" %lf ", arg1.arr_val[i]);
+	}
+	printf("] / [");
+	for(int i = 0; i < arg2.arr_len; i++) {
+		printf(" %lf ", arg2.arr_val[i]);
+	}
+	printf("] = [");
+	for(int i = 0; i < c.arr_len; i++) {
+		printf(" %lf ", result.vresponse_u.res.arr_val[i]);
+	}
+	printf("]\n");
+
+	return &result;
+}
+
 dresponse * reduce_1_svc(arr arg1,  struct svc_req *rqstp) {
 	static dresponse  result;
 	double reduction;

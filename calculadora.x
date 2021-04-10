@@ -28,6 +28,9 @@ program CALCPROG {
 		dresponse DMANHATTAN(coordenadas, coordenadas) = 5;
 		dresponse DEUCLIDES(coordenadas, coordenadas) = 6;
 		vresponse SUMAVECTORES(arr, arr) = 7;
-		dresponse REDUCE(arr) = 8;
+		vresponse RESTAVECTORES(arr, arr) = 8;
+		vresponse MULTIPLICAVECTORES(arr, arr) = 9;
+		vresponse DIVIDEVECTORES(arr, arr) = 10;
+		dresponse REDUCE(arr) = 11;
 	} = 1;
 } = 0x20000001;

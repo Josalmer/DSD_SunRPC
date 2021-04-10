@@ -83,6 +83,24 @@ struct sumavectores_1_argument {
 };
 typedef struct sumavectores_1_argument sumavectores_1_argument;
 
+struct restavectores_1_argument {
+	arr arg1;
+	arr arg2;
+};
+typedef struct restavectores_1_argument restavectores_1_argument;
+
+struct multiplicavectores_1_argument {
+	arr arg1;
+	arr arg2;
+};
+typedef struct multiplicavectores_1_argument multiplicavectores_1_argument;
+
+struct dividevectores_1_argument {
+	arr arg1;
+	arr arg2;
+};
+typedef struct dividevectores_1_argument dividevectores_1_argument;
+
 #define CALCPROG 0x20000001
 #define CALCVERS 1
 
@@ -108,7 +126,16 @@ extern  dresponse * deuclides_1_svc(coordenadas , coordenadas , struct svc_req *
 #define SUMAVECTORES 7
 extern  vresponse * sumavectores_1(arr , arr , CLIENT *);
 extern  vresponse * sumavectores_1_svc(arr , arr , struct svc_req *);
-#define REDUCE 8
+#define RESTAVECTORES 8
+extern  vresponse * restavectores_1(arr , arr , CLIENT *);
+extern  vresponse * restavectores_1_svc(arr , arr , struct svc_req *);
+#define MULTIPLICAVECTORES 9
+extern  vresponse * multiplicavectores_1(arr , arr , CLIENT *);
+extern  vresponse * multiplicavectores_1_svc(arr , arr , struct svc_req *);
+#define DIVIDEVECTORES 10
+extern  vresponse * dividevectores_1(arr , arr , CLIENT *);
+extern  vresponse * dividevectores_1_svc(arr , arr , struct svc_req *);
+#define REDUCE 11
 extern  dresponse * reduce_1(arr , CLIENT *);
 extern  dresponse * reduce_1_svc(arr , struct svc_req *);
 extern int calcprog_1_freeresult (SVCXPRT *, xdrproc_t, caddr_t);
@@ -135,7 +162,16 @@ extern  dresponse * deuclides_1_svc();
 #define SUMAVECTORES 7
 extern  vresponse * sumavectores_1();
 extern  vresponse * sumavectores_1_svc();
-#define REDUCE 8
+#define RESTAVECTORES 8
+extern  vresponse * restavectores_1();
+extern  vresponse * restavectores_1_svc();
+#define MULTIPLICAVECTORES 9
+extern  vresponse * multiplicavectores_1();
+extern  vresponse * multiplicavectores_1_svc();
+#define DIVIDEVECTORES 10
+extern  vresponse * dividevectores_1();
+extern  vresponse * dividevectores_1_svc();
+#define REDUCE 11
 extern  dresponse * reduce_1();
 extern  dresponse * reduce_1_svc();
 extern int calcprog_1_freeresult ();
@@ -155,6 +191,9 @@ extern  bool_t xdr_divide_1_argument (XDR *, divide_1_argument*);
 extern  bool_t xdr_dmanhattan_1_argument (XDR *, dmanhattan_1_argument*);
 extern  bool_t xdr_deuclides_1_argument (XDR *, deuclides_1_argument*);
 extern  bool_t xdr_sumavectores_1_argument (XDR *, sumavectores_1_argument*);
+extern  bool_t xdr_restavectores_1_argument (XDR *, restavectores_1_argument*);
+extern  bool_t xdr_multiplicavectores_1_argument (XDR *, multiplicavectores_1_argument*);
+extern  bool_t xdr_dividevectores_1_argument (XDR *, dividevectores_1_argument*);
 
 #else /* K&R C */
 extern bool_t xdr_arr ();
@@ -168,6 +207,9 @@ extern bool_t xdr_divide_1_argument ();
 extern bool_t xdr_dmanhattan_1_argument ();
 extern bool_t xdr_deuclides_1_argument ();
 extern bool_t xdr_sumavectores_1_argument ();
+extern bool_t xdr_restavectores_1_argument ();
+extern bool_t xdr_multiplicavectores_1_argument ();
+extern bool_t xdr_dividevectores_1_argument ();
 
 #endif /* K&R C */
 

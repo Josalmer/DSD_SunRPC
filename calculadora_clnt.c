@@ -193,3 +193,20 @@ reduce_1(arr arg1,  CLIENT *clnt)
 	}
 	return (&clnt_res);
 }
+
+mresponse *
+sumamatrix_1(matrix arg1, matrix arg2,  CLIENT *clnt)
+{
+	sumamatrix_1_argument arg;
+	static mresponse clnt_res;
+
+	memset((char *)&clnt_res, 0, sizeof(clnt_res));
+	arg.arg1 = arg1;
+	arg.arg2 = arg2;
+	if (clnt_call (clnt, SUMAMATRIX, (xdrproc_t) xdr_sumamatrix_1_argument, (caddr_t) &arg,
+		(xdrproc_t) xdr_mresponse, (caddr_t) &clnt_res,
+		TIMEOUT) != RPC_SUCCESS) {
+		return (NULL);
+	}
+	return (&clnt_res);
+}

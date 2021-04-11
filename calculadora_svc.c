@@ -82,6 +82,12 @@ _reduce_1 (arr  *argp, struct svc_req *rqstp)
 	return (reduce_1_svc(*argp, rqstp));
 }
 
+static mresponse *
+_sumamatrix_1 (sumamatrix_1_argument *argp, struct svc_req *rqstp)
+{
+	return (sumamatrix_1_svc(argp->arg1, argp->arg2, rqstp));
+}
+
 static void
 calcprog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 {
@@ -97,6 +103,7 @@ calcprog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 		multiplicavectores_1_argument multiplicavectores_1_arg;
 		dividevectores_1_argument dividevectores_1_arg;
 		arr reduce_1_arg;
+		sumamatrix_1_argument sumamatrix_1_arg;
 	} argument;
 	char *result;
 	xdrproc_t _xdr_argument, _xdr_result;
@@ -171,6 +178,12 @@ calcprog_1(struct svc_req *rqstp, register SVCXPRT *transp)
 		_xdr_argument = (xdrproc_t) xdr_arr;
 		_xdr_result = (xdrproc_t) xdr_dresponse;
 		local = (char *(*)(char *, struct svc_req *)) _reduce_1;
+		break;
+
+	case SUMAMATRIX:
+		_xdr_argument = (xdrproc_t) xdr_sumamatrix_1_argument;
+		_xdr_result = (xdrproc_t) xdr_mresponse;
+		local = (char *(*)(char *, struct svc_req *)) _sumamatrix_1;
 		break;
 
 	default:

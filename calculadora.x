@@ -5,6 +5,11 @@ struct coordenadas {
 	double y;
 };
 
+struct matrix {
+	arr mat;
+	int cols;
+};
+
 union dresponse switch (int errno) {
 	case 0:
 		double res;
@@ -15,6 +20,13 @@ union dresponse switch (int errno) {
 union vresponse switch (int errno) {
 	case 0:
 		arr res;
+	default:
+		void;
+};
+
+union mresponse switch (int errno) {
+	case 0:
+		matrix res;
 	default:
 		void;
 };
@@ -32,5 +44,6 @@ program CALCPROG {
 		vresponse MULTIPLICAVECTORES(arr, arr) = 9;
 		vresponse DIVIDEVECTORES(arr, arr) = 10;
 		dresponse REDUCE(arr) = 11;
+		mresponse SUMAMATRIX(matrix, matrix) = 12;
 	} = 1;
 } = 0x20000001;

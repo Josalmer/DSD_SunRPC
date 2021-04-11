@@ -29,6 +29,18 @@ xdr_coordenadas (XDR *xdrs, coordenadas *objp)
 }
 
 bool_t
+xdr_matrix (XDR *xdrs, matrix *objp)
+{
+	register int32_t *buf;
+
+	 if (!xdr_arr (xdrs, &objp->mat))
+		 return FALSE;
+	 if (!xdr_int (xdrs, &objp->cols))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
 xdr_dresponse (XDR *xdrs, dresponse *objp)
 {
 	register int32_t *buf;
@@ -56,6 +68,24 @@ xdr_vresponse (XDR *xdrs, vresponse *objp)
 	switch (objp->errno) {
 	case 0:
 		 if (!xdr_arr (xdrs, &objp->vresponse_u.res))
+			 return FALSE;
+		break;
+	default:
+		break;
+	}
+	return TRUE;
+}
+
+bool_t
+xdr_mresponse (XDR *xdrs, mresponse *objp)
+{
+	register int32_t *buf;
+
+	 if (!xdr_int (xdrs, &objp->errno))
+		 return FALSE;
+	switch (objp->errno) {
+	case 0:
+		 if (!xdr_matrix (xdrs, &objp->mresponse_u.res))
 			 return FALSE;
 		break;
 	default:
@@ -160,6 +190,16 @@ xdr_dividevectores_1_argument (XDR *xdrs, dividevectores_1_argument *objp)
 	 if (!xdr_arr (xdrs, &objp->arg1))
 		 return FALSE;
 	 if (!xdr_arr (xdrs, &objp->arg2))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
+xdr_sumamatrix_1_argument (XDR *xdrs, sumamatrix_1_argument *objp)
+{
+	 if (!xdr_matrix (xdrs, &objp->arg1))
+		 return FALSE;
+	 if (!xdr_matrix (xdrs, &objp->arg2))
 		 return FALSE;
 	return TRUE;
 }

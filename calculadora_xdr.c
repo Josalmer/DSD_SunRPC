@@ -37,6 +37,8 @@ xdr_matrix (XDR *xdrs, matrix *objp)
 		 return FALSE;
 	 if (!xdr_int (xdrs, &objp->cols))
 		 return FALSE;
+	 if (!xdr_int (xdrs, &objp->rows))
+		 return FALSE;
 	return TRUE;
 }
 
@@ -196,6 +198,16 @@ xdr_dividevectores_1_argument (XDR *xdrs, dividevectores_1_argument *objp)
 
 bool_t
 xdr_sumamatrix_1_argument (XDR *xdrs, sumamatrix_1_argument *objp)
+{
+	 if (!xdr_matrix (xdrs, &objp->arg1))
+		 return FALSE;
+	 if (!xdr_matrix (xdrs, &objp->arg2))
+		 return FALSE;
+	return TRUE;
+}
+
+bool_t
+xdr_restamatrix_1_argument (XDR *xdrs, restamatrix_1_argument *objp)
 {
 	 if (!xdr_matrix (xdrs, &objp->arg1))
 		 return FALSE;

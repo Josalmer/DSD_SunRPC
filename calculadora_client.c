@@ -172,6 +172,9 @@ void calc_matrix(char *host, matrix a, matrix b, char op) {
 		case '+':
 			mresult = sumamatrix_1(a, b, clnt);
 			break;
+		case '-':
+			mresult = restamatrix_1(a, b, clnt);
+			break;
 		default:
 			printf ("op erronea\n");
 			break;
@@ -181,10 +184,9 @@ void calc_matrix(char *host, matrix a, matrix b, char op) {
 		clnt_perror (clnt, "call failed");
 	} else {
 		printf("[\n");
-		int rows = mresult->mresponse_u.res.mat.arr_len / mresult->mresponse_u.res.cols;
 		int i = 0;
-		while (i < rows) {
-			for (int j = 0; i < a.cols; j++) {
+		while (i < a.rows) {
+			for (int j = 0; j < a.cols; j++) {
 				printf(" %lf ", a.mat.arr_val[i * a.cols + j]);
 			}
 			i++;
@@ -193,8 +195,8 @@ void calc_matrix(char *host, matrix a, matrix b, char op) {
 		printf("]\n");
 		printf("%c [\n", op);
 		i = 0;
-		while (i < rows) {
-			for (int j = 0; i < b.cols; j++) {
+		while (i < b.rows) {
+			for (int j = 0; j < b.cols; j++) {
 				printf(" %lf ", b.mat.arr_val[i * b.cols + j]);
 			}
 			i++;
@@ -203,8 +205,8 @@ void calc_matrix(char *host, matrix a, matrix b, char op) {
 		printf("]\n");
 		printf("= [\n");
 		i = 0;
-		while (i < rows) {
-			for (int j = 0; i < mresult->mresponse_u.res.cols; j++) {
+		while (i < mresult->mresponse_u.res.rows) {
+			for (int j = 0; j < mresult->mresponse_u.res.cols; j++) {
 				printf(" %lf ", mresult->mresponse_u.res.mat.arr_val[i * mresult->mresponse_u.res.cols + j]);
 			}
 			i++;
@@ -293,8 +295,10 @@ int main (int argc, char *argv[]) {
 			scanf("%d %d %c", &row, &col, &op);
 			elems = col * row;
 			ma.cols = col;
+			ma.rows = row;
 			ma.mat.arr_len = elems;
 			mb.cols = col;
+			mb.rows = row;
 			mb.mat.arr_len = elems;
 
 			double auxA[elems];
@@ -306,7 +310,7 @@ int main (int argc, char *argv[]) {
 				for (int j = 0; j < col; j++) {
 					printf("Introduzca A[%d][%d]: ", i, j);
 					scanf("%lf", &aux);
-					auxA[i] = aux;
+					auxA[i * col + j] = aux;
 				}
 				i++;
 			}
@@ -318,7 +322,7 @@ int main (int argc, char *argv[]) {
 				for (int j = 0; j < col; j++) {
 					printf("Introduzca B[%d][%d]: ", i, j);
 					scanf("%lf", &aux);
-					auxB[i] = aux;
+					auxB[i * col + j] = aux;
 				}
 				i++;
 			}

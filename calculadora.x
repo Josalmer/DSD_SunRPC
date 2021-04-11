@@ -8,6 +8,7 @@ struct coordenadas {
 struct matrix {
 	arr mat;
 	int cols;
+	int rows;
 };
 
 union dresponse switch (int errno) {
@@ -45,5 +46,6 @@ program CALCPROG {
 		vresponse DIVIDEVECTORES(arr, arr) = 10;
 		dresponse REDUCE(arr) = 11;
 		mresponse SUMAMATRIX(matrix, matrix) = 12;
+		mresponse RESTAMATRIX(matrix, matrix) = 13;
 	} = 1;
 } = 0x20000001;

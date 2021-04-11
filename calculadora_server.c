@@ -244,12 +244,13 @@ mresponse * sumamatrix_1_svc(matrix arg1, matrix arg2,  struct svc_req *rqstp) {
 	matrix c;
 	c.mat.arr_len = arg1.mat.arr_len;
 	c.cols = arg1.cols;
+	c.rows = arg1.rows;
+
 	double auxC[arg1.mat.arr_len];
 
-	int rows = c.mat.arr_len / c.cols;
 	int i = 0;
-	while (i < rows) {
-		for (int j = 0; i < arg1.cols; j++) {
+	while (i < c.rows) {
+		for (int j = 0; j < arg1.cols; j++) {
 			auxC[i * c.cols + j] = arg1.mat.arr_val[i * arg1.cols + j] + arg2.mat.arr_val[i * arg2.cols + j];
 		}
 		i++;
@@ -263,8 +264,8 @@ mresponse * sumamatrix_1_svc(matrix arg1, matrix arg2,  struct svc_req *rqstp) {
 
 	printf("[\n");
 	i = 0;
-	while (i < rows) {
-		for (int j = 0; i < arg1.cols; j++) {
+	while (i < arg1.rows) {
+		for (int j = 0; j < arg1.cols; j++) {
 			printf(" %lf ", arg1.mat.arr_val[i * arg1.cols + j]);
 		}
 		i++;
@@ -273,8 +274,8 @@ mresponse * sumamatrix_1_svc(matrix arg1, matrix arg2,  struct svc_req *rqstp) {
 	printf("]\n");
 	printf("+ [\n");
 	i = 0;
-	while (i < rows) {
-		for (int j = 0; i < arg2.cols; j++) {
+	while (i < arg2.rows) {
+		for (int j = 0; j < arg2.cols; j++) {
 			printf(" %lf ", arg2.mat.arr_val[i * arg2.cols + j]);
 		}
 		i++;
@@ -283,8 +284,65 @@ mresponse * sumamatrix_1_svc(matrix arg1, matrix arg2,  struct svc_req *rqstp) {
 	printf("]\n");
 	printf("= [\n");
 	i = 0;
-	while (i < rows) {
-		for (int j = 0; i < result.mresponse_u.res.cols; j++) {
+	while (i < result.mresponse_u.res.rows) {
+		for (int j = 0; j < result.mresponse_u.res.cols; j++) {
+			printf(" %lf ", result.mresponse_u.res.mat.arr_val[i * result.mresponse_u.res.cols + j]);
+		}
+		i++;
+		printf("\n");
+	}
+	printf("]\n");
+
+	return &result;
+}
+
+mresponse * restamatrix_1_svc(matrix arg1, matrix arg2,  struct svc_req *rqstp) {
+	static mresponse  result;
+	matrix c;
+	c.mat.arr_len = arg1.mat.arr_len;
+	c.cols = arg1.cols;
+	c.rows = arg1.rows;
+
+	double auxC[arg1.mat.arr_len];
+
+	int i = 0;
+	while (i < c.rows) {
+		for (int j = 0; j < arg1.cols; j++) {
+			auxC[i * c.cols + j] = arg1.mat.arr_val[i * arg1.cols + j] - arg2.mat.arr_val[i * arg2.cols + j];
+		}
+		i++;
+	}
+
+	c.mat.arr_val = auxC;
+
+	xdr_free (xdr_mresponse, &result);
+
+	result.mresponse_u.res = c;
+
+	printf("[\n");
+	i = 0;
+	while (i < arg1.rows) {
+		for (int j = 0; j < arg1.cols; j++) {
+			printf(" %lf ", arg1.mat.arr_val[i * arg1.cols + j]);
+		}
+		i++;
+		printf("\n");
+	}
+	printf("]\n");
+	printf("- [\n");
+	i = 0;
+	while (i < arg2.rows) {
+		for (int j = 0; j < arg2.cols; j++) {
+			printf(" %lf ", arg2.mat.arr_val[i * arg2.cols + j]);
+		}
+		i++;
+		printf("\n");
+	}
+	printf("]\n");
+	printf("= [\n");
+	i = 0;
+	while (i < result.mresponse_u.res.rows) {
+		for (int j = 0; j < result.mresponse_u.res.cols; j++) {
 			printf(" %lf ", result.mresponse_u.res.mat.arr_val[i * result.mresponse_u.res.cols + j]);
 		}
 		i++;

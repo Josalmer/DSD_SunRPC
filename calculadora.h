@@ -28,6 +28,7 @@ typedef struct coordenadas coordenadas;
 struct matrix {
 	arr mat;
 	int cols;
+	int rows;
 };
 typedef struct matrix matrix;
 
@@ -121,6 +122,12 @@ struct sumamatrix_1_argument {
 };
 typedef struct sumamatrix_1_argument sumamatrix_1_argument;
 
+struct restamatrix_1_argument {
+	matrix arg1;
+	matrix arg2;
+};
+typedef struct restamatrix_1_argument restamatrix_1_argument;
+
 #define CALCPROG 0x20000001
 #define CALCVERS 1
 
@@ -161,6 +168,9 @@ extern  dresponse * reduce_1_svc(arr , struct svc_req *);
 #define SUMAMATRIX 12
 extern  mresponse * sumamatrix_1(matrix , matrix , CLIENT *);
 extern  mresponse * sumamatrix_1_svc(matrix , matrix , struct svc_req *);
+#define RESTAMATRIX 13
+extern  mresponse * restamatrix_1(matrix , matrix , CLIENT *);
+extern  mresponse * restamatrix_1_svc(matrix , matrix , struct svc_req *);
 extern int calcprog_1_freeresult (SVCXPRT *, xdrproc_t, caddr_t);
 
 #else /* K&R C */
@@ -200,6 +210,9 @@ extern  dresponse * reduce_1_svc();
 #define SUMAMATRIX 12
 extern  mresponse * sumamatrix_1();
 extern  mresponse * sumamatrix_1_svc();
+#define RESTAMATRIX 13
+extern  mresponse * restamatrix_1();
+extern  mresponse * restamatrix_1_svc();
 extern int calcprog_1_freeresult ();
 #endif /* K&R C */
 
@@ -223,6 +236,7 @@ extern  bool_t xdr_restavectores_1_argument (XDR *, restavectores_1_argument*);
 extern  bool_t xdr_multiplicavectores_1_argument (XDR *, multiplicavectores_1_argument*);
 extern  bool_t xdr_dividevectores_1_argument (XDR *, dividevectores_1_argument*);
 extern  bool_t xdr_sumamatrix_1_argument (XDR *, sumamatrix_1_argument*);
+extern  bool_t xdr_restamatrix_1_argument (XDR *, restamatrix_1_argument*);
 
 #else /* K&R C */
 extern bool_t xdr_arr ();
@@ -242,6 +256,7 @@ extern bool_t xdr_restavectores_1_argument ();
 extern bool_t xdr_multiplicavectores_1_argument ();
 extern bool_t xdr_dividevectores_1_argument ();
 extern bool_t xdr_sumamatrix_1_argument ();
+extern bool_t xdr_restamatrix_1_argument ();
 
 #endif /* K&R C */
 

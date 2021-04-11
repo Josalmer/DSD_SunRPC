@@ -172,6 +172,9 @@ int main (int argc, char *argv[]) {
 	server = argv[1];
 
 	while (type != 'x') {
+		int c;
+		if (c != '\n') { printf("Pulse intro para continuar\n"); }
+		while ((c = getchar()) != '\n' && c != EOF) { }
 		printf ("\nElija tipo de operación:\n\tb (Básica + - x /)\n\td (cálculo de Distancia manhattan o euclidea)\n\tv (operaciones con Vectores: suma o reducción con suma)\n\tx eXit\n");
 		scanf("%c", &type);
 

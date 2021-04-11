@@ -86,19 +86,15 @@ dresponse * deuclides_1_svc(coordenadas arg1, coordenadas arg2,  struct svc_req 
 
 vresponse * sumavectores_1_svc(arr arg1, arr arg2,  struct svc_req *rqstp) {
 	static vresponse  result;
-	arr c;
-	c.arr_len = arg1.arr_len;
-	double auxC[arg1.arr_len];
-
-	for (int i = 0; i < c.arr_len; i++) {
-		auxC[i] = arg1.arr_val[i] + arg2.arr_val[i];
-	}
-
-	c.arr_val = auxC;
 
 	xdr_free (xdr_vresponse, &result);
 
-	result.vresponse_u.res = c;
+	result.vresponse_u.res.arr_len = arg1.arr_len;
+	result.vresponse_u.res.arr_val = malloc(arg1.arr_len * sizeof(double));
+
+	for (int i = 0; i < result.vresponse_u.res.arr_len; i++) {
+		result.vresponse_u.res.arr_val[i] = arg1.arr_val[i] + arg2.arr_val[i];
+	}
 
 	printf("A[");
 	for(int i = 0; i < arg1.arr_len; i++) {
@@ -109,7 +105,7 @@ vresponse * sumavectores_1_svc(arr arg1, arr arg2,  struct svc_req *rqstp) {
 		printf(" %lf ", arg2.arr_val[i]);
 	}
 	printf("] = [");
-	for(int i = 0; i < c.arr_len; i++) {
+	for(int i = 0; i < result.vresponse_u.res.arr_len; i++) {
 		printf(" %lf ", result.vresponse_u.res.arr_val[i]);
 	}
 	printf("]\n");
@@ -119,19 +115,15 @@ vresponse * sumavectores_1_svc(arr arg1, arr arg2,  struct svc_req *rqstp) {
 
 vresponse * restavectores_1_svc(arr arg1, arr arg2,  struct svc_req *rqstp) {
 	static vresponse  result;
-	arr c;
-	c.arr_len = arg1.arr_len;
-	double auxC[arg1.arr_len];
-
-	for (int i = 0; i < c.arr_len; i++) {
-		auxC[i] = arg1.arr_val[i] - arg2.arr_val[i];
-	}
-
-	c.arr_val = auxC;
 
 	xdr_free (xdr_vresponse, &result);
 
-	result.vresponse_u.res = c;
+	result.vresponse_u.res.arr_len = arg1.arr_len;
+	result.vresponse_u.res.arr_val = malloc(arg1.arr_len * sizeof(double));
+
+	for (int i = 0; i < result.vresponse_u.res.arr_len; i++) {
+		result.vresponse_u.res.arr_val[i] = arg1.arr_val[i] - arg2.arr_val[i];
+	}
 
 	printf("A[");
 	for(int i = 0; i < arg1.arr_len; i++) {
@@ -142,7 +134,7 @@ vresponse * restavectores_1_svc(arr arg1, arr arg2,  struct svc_req *rqstp) {
 		printf(" %lf ", arg2.arr_val[i]);
 	}
 	printf("] = [");
-	for(int i = 0; i < c.arr_len; i++) {
+	for(int i = 0; i < result.vresponse_u.res.arr_len; i++) {
 		printf(" %lf ", result.vresponse_u.res.arr_val[i]);
 	}
 	printf("]\n");
@@ -152,19 +144,15 @@ vresponse * restavectores_1_svc(arr arg1, arr arg2,  struct svc_req *rqstp) {
 
 vresponse * multiplicavectores_1_svc(arr arg1, arr arg2,  struct svc_req *rqstp) {
 	static vresponse  result;
-	arr c;
-	c.arr_len = arg1.arr_len;
-	double auxC[arg1.arr_len];
-
-	for (int i = 0; i < c.arr_len; i++) {
-		auxC[i] = arg1.arr_val[i] * arg2.arr_val[i];
-	}
-
-	c.arr_val = auxC;
 
 	xdr_free (xdr_vresponse, &result);
 
-	result.vresponse_u.res = c;
+	result.vresponse_u.res.arr_len = arg1.arr_len;
+	result.vresponse_u.res.arr_val = malloc(arg1.arr_len * sizeof(double));
+
+	for (int i = 0; i < result.vresponse_u.res.arr_len; i++) {
+		result.vresponse_u.res.arr_val[i] = arg1.arr_val[i] * arg2.arr_val[i];
+	}
 
 	printf("A[");
 	for(int i = 0; i < arg1.arr_len; i++) {
@@ -175,7 +163,7 @@ vresponse * multiplicavectores_1_svc(arr arg1, arr arg2,  struct svc_req *rqstp)
 		printf(" %lf ", arg2.arr_val[i]);
 	}
 	printf("] = [");
-	for(int i = 0; i < c.arr_len; i++) {
+	for(int i = 0; i < result.vresponse_u.res.arr_len; i++) {
 		printf(" %lf ", result.vresponse_u.res.arr_val[i]);
 	}
 	printf("]\n");
@@ -185,21 +173,17 @@ vresponse * multiplicavectores_1_svc(arr arg1, arr arg2,  struct svc_req *rqstp)
 
 vresponse * dividevectores_1_svc(arr arg1, arr arg2,  struct svc_req *rqstp) {
 	static vresponse  result;
-	arr c;
-	c.arr_len = arg1.arr_len;
-	double auxC[arg1.arr_len];
-
-	for (int i = 0; i < c.arr_len; i++) {
-		if (arg2.arr_val[i] != 0) {
-			auxC[i] = arg1.arr_val[i] / arg2.arr_val[i];
-		}
-	}
-
-	c.arr_val = auxC;
 
 	xdr_free (xdr_vresponse, &result);
 
-	result.vresponse_u.res = c;
+	result.vresponse_u.res.arr_len = arg1.arr_len;
+	result.vresponse_u.res.arr_val = malloc(arg1.arr_len * sizeof(double));
+
+	for (int i = 0; i < result.vresponse_u.res.arr_len; i++) {
+		if (arg2.arr_val[i] != 0) {
+			result.vresponse_u.res.arr_val[i] = arg1.arr_val[i] / arg2.arr_val[i];
+		}
+	}
 
 	printf("A[");
 	for(int i = 0; i < arg1.arr_len; i++) {
@@ -210,7 +194,7 @@ vresponse * dividevectores_1_svc(arr arg1, arr arg2,  struct svc_req *rqstp) {
 		printf(" %lf ", arg2.arr_val[i]);
 	}
 	printf("] = [");
-	for(int i = 0; i < c.arr_len; i++) {
+	for(int i = 0; i < result.vresponse_u.res.arr_len; i++) {
 		printf(" %lf ", result.vresponse_u.res.arr_val[i]);
 	}
 	printf("]\n");
@@ -241,26 +225,21 @@ dresponse * reduce_1_svc(arr arg1,  struct svc_req *rqstp) {
 
 mresponse * sumamatrix_1_svc(matrix arg1, matrix arg2,  struct svc_req *rqstp) {
 	static mresponse  result;
-	matrix c;
-	c.mat.arr_len = arg1.mat.arr_len;
-	c.cols = arg1.cols;
-	c.rows = arg1.rows;
 
-	double auxC[arg1.mat.arr_len];
+	xdr_free (xdr_vresponse, &result);
+
+	result.mresponse_u.res.cols = arg1.cols;
+	result.mresponse_u.res.rows = arg1.rows;
+	result.mresponse_u.res.mat.arr_len = arg1.mat.arr_len;
+	result.mresponse_u.res.mat.arr_val = malloc(arg1.mat.arr_len * sizeof(double));
 
 	int i = 0;
-	while (i < c.rows) {
+	while (i < result.mresponse_u.res.rows) {
 		for (int j = 0; j < arg1.cols; j++) {
-			auxC[i * c.cols + j] = arg1.mat.arr_val[i * arg1.cols + j] + arg2.mat.arr_val[i * arg2.cols + j];
+			result.mresponse_u.res.mat.arr_val[i * result.mresponse_u.res.cols + j] = arg1.mat.arr_val[i * arg1.cols + j] + arg2.mat.arr_val[i * arg2.cols + j];
 		}
 		i++;
 	}
-
-	c.mat.arr_val = auxC;
-
-	xdr_free (xdr_mresponse, &result);
-
-	result.mresponse_u.res = c;
 
 	printf("[\n");
 	i = 0;
@@ -298,26 +277,21 @@ mresponse * sumamatrix_1_svc(matrix arg1, matrix arg2,  struct svc_req *rqstp) {
 
 mresponse * restamatrix_1_svc(matrix arg1, matrix arg2,  struct svc_req *rqstp) {
 	static mresponse  result;
-	matrix c;
-	c.mat.arr_len = arg1.mat.arr_len;
-	c.cols = arg1.cols;
-	c.rows = arg1.rows;
 
-	double auxC[arg1.mat.arr_len];
+	xdr_free (xdr_vresponse, &result);
+
+	result.mresponse_u.res.cols = arg1.cols;
+	result.mresponse_u.res.rows = arg1.rows;
+	result.mresponse_u.res.mat.arr_len = arg1.mat.arr_len;
+	result.mresponse_u.res.mat.arr_val = malloc(arg1.mat.arr_len * sizeof(double));
 
 	int i = 0;
-	while (i < c.rows) {
+	while (i < result.mresponse_u.res.rows) {
 		for (int j = 0; j < arg1.cols; j++) {
-			auxC[i * c.cols + j] = arg1.mat.arr_val[i * arg1.cols + j] - arg2.mat.arr_val[i * arg2.cols + j];
+			result.mresponse_u.res.mat.arr_val[i * result.mresponse_u.res.cols + j] = arg1.mat.arr_val[i * arg1.cols + j] - arg2.mat.arr_val[i * arg2.cols + j];
 		}
 		i++;
 	}
-
-	c.mat.arr_val = auxC;
-
-	xdr_free (xdr_mresponse, &result);
-
-	result.mresponse_u.res = c;
 
 	printf("[\n");
 	i = 0;
